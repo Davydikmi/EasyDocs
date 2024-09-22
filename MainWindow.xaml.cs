@@ -23,6 +23,57 @@ namespace EasyDocs
         public MainWindow()
         {
             InitializeComponent();
+            MyFrame.Content = new MainPage();
+            MainPageButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(FilesButton);
+            ChangeToUnpressedColor(InstructionButton);
         }
+        private void MainButton_click(object sender, RoutedEventArgs e)
+        {
+            MyFrame.Content = new MainPage();
+            MainPageButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(FilesButton);
+            ChangeToUnpressedColor(InstructionButton);
+        }
+        private void Tourists_click(object sender, RoutedEventArgs e)
+        {
+            MyFrame.Content = new Tourists();
+            TouristsButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            TouristsButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ChangeToUnpressedColor(MainPageButton);
+            ChangeToUnpressedColor(FilesButton);
+            ChangeToUnpressedColor(InstructionButton);
+        }
+
+        private void Files_click(object sender, RoutedEventArgs e)
+        {
+            MyFrame.Content = new Files();
+            FilesButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            FilesButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ChangeToUnpressedColor(MainPageButton);
+            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(InstructionButton);
+        }
+
+        private void Instruction_click(object sender, RoutedEventArgs e)
+        {
+            InstructionButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            InstructionButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ChangeToUnpressedColor(MainPageButton);
+            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(FilesButton);
+        }
+
+        private void ChangeToUnpressedColor(Button button) 
+        {
+            button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#215B7A"));
+            button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#215B7A"));
+        }
+
+
     }
 }
