@@ -5,11 +5,95 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EasyDocs"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Files"
-      Background="LightYellow">
+      d:DesignHeight="561" d:DesignWidth="1034"
+      Title="Files" Background="White">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="55"></Setter>
+            <Setter Property="Width" Value="349"></Setter>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#6ab1c7"/>
+            <Setter Property="BorderBrush" Value="#6ab1c7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ContentSource="{TemplateBinding Content}"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3F8A9F"/>
+                    <Setter Property="BorderBrush" Value="#3F8A9F"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#a5d0dd"/>
+                    <Setter Property="BorderBrush" Value="#a5d0dd"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
 
     <Grid>
-        
+        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="750">
+            <!-- Cтиль для заголовка GridViewColumnHeader -->
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <!-- Удаление вида кнопки -->
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <!-- Отключения возможности нажатия -->
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                <Border Background="Transparent">
+                                    <TextBlock Text="{TemplateBinding Content}" 
+                                               FontWeight="Bold" 
+                                               Foreground="#586770" 
+                                               Padding="5,0,0,8"
+                                               FontSize="20"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Имя файла" Width="700">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FileName}"
+                                           Foreground="Black"
+                                           FontSize="16"
+                                           VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Rectangle HorizontalAlignment="Left" Fill="#6ab1c7" Height="561" Stroke="#6ab1c7" VerticalAlignment="Center" Width="349"/>
+        <StackPanel Orientation="Vertical" Margin="0,0,685,0">
+            <Button Content="Добавить" Click="Add_Click"/>
+            <Button Content="Удалить" Click="Delete_Click"/>
+        </StackPanel>
+        <Button Content="Сброс" Margin="0,506,685,0" Click="Reset_Click"/>
+        <Rectangle Stroke="#586770" Margin="349,30,0,527" Fill="#586770"/>
+
     </Grid>
 </Page>

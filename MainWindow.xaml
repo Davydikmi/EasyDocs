@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyDocs"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
+        Title="EasyDocs" Height="650" Width="1050" ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
     <Window.Resources>
         <Style TargetType="Button">
             <!-- Основные параметры -->
             <Setter Property="Height" Value="50"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Width" Value="263"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontFamily" Value="Bahnschrift Light"/>
             <Setter Property="Background" Value="#215B7A"/>
             <Setter Property="BorderBrush" Value="#215B7A"/>
             <Setter Property="Foreground" Value="White"/>
@@ -28,16 +29,20 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            
+
             <!-- Смена цвета кнопки при наведении -->
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#4D7B94"/>
+                    <Setter Property="Background" Value="Black"/>
                     <Setter Property="BorderBrush" Value="#4D7B94"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="#a5d0dd"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -50,6 +55,6 @@
             <Button Name="FilesButton" Content="Файлы" Click="Files_click"></Button>
             <Button Name="InstructionButton" Content="Инструкция" Click="Instruction_click"></Button>
         </StackPanel>
-        <Frame Name="MyFrame" Grid.Row="1" Background="White" NavigationUIVisibility="Hidden"/>
+        <Frame Name="MyFrame" Grid.Row="1" Background="White" NavigationUIVisibility="Hidden" RenderTransformOrigin="0.5,0.5"/>
     </Grid>
 </Window>
