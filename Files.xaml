@@ -43,7 +43,7 @@
     </Page.Resources>
 
     <Grid>
-        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="750">
+        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="750" FontSize="18" Foreground="Black">
             <!-- Cтиль для заголовка GridViewColumnHeader -->
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
@@ -74,13 +74,9 @@
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Имя файла" Width="700">
+                    <GridViewColumn Header="Имя файла" Width="700" DisplayMemberBinding="{Binding filename}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding FileName}"
-                                           Foreground="Black"
-                                           FontSize="16"
-                                           VerticalAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

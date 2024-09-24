@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SourceFiles.cs" />
     <Compile Include="Tourists.xaml.cs">
       <DependentUpon>Tourists.xaml</DependentUpon>
     </Compile>
