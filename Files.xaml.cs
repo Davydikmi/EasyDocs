@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace EasyDocs
 {
@@ -25,22 +26,22 @@ namespace EasyDocs
     public partial class Files : Page
     {
 
-        public ObservableCollection<SourceFiles> file_items {  get; set; }
+        public ObservableCollection<SourceFiles> listview_items {  get; set; }
         public Files()
         {
             InitializeComponent();
-            file_items = new ObservableCollection<SourceFiles>
+            listview_items = new ObservableCollection<SourceFiles>
             {
                 new SourceFiles { filename = "Document1.txt" },
                 new SourceFiles { filename = "Presentation.pptx" },
                 new SourceFiles { filename = "Image.png" }
             };
-            fileListView.ItemsSource = file_items;
+            fileListView.ItemsSource = listview_items;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (file_items == null)
+            if (listview_items == null)
             {
                 MessageBox.Show("Коллекция не инициализирована");
                 return;
@@ -54,29 +55,38 @@ namespace EasyDocs
                 SourceFiles sourceFiles = new SourceFiles();
                 sourceFiles.filename = fileDialog.SafeFileName;
                 sourceFiles.filepath = fileDialog.FileName;
-                file_items.Add(new SourceFiles { filename = sourceFiles.filename });
-
-                string projectDirectory = Directory.GetCurrentDirectory();
-                string targetDirectory = System.IO.Path.Combine(projectDirectory, "source_files"); 
-
-                // Проверяем, существует ли папка "ProjectFiles", если нет - создаем её
-                if (!Directory.Exists(targetDirectory))
-                {
-                    Directory.CreateDirectory(targetDirectory);
-                }
-
-                // Определяем целевой путь, куда скопировать файл
-                string targetFilePath = System.IO.Path.Combine(targetDirectory, sourceFiles.filename);
-                File.Copy(sourceFiles.filepath, targetFilePath, overwrite: true);
+                listview_items.Add(new SourceFiles { filename = sourceFiles.filename });
+                sourceFiles.AddFile();
             }
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-        
+            SourceFiles sourceFiles = new SourceFiles();
+            var selectedItem = fileListView.SelectedItem as SourceFiles;
+
+            if (selectedItem != null)
+            {
+                MessageBoxResult confirmation = MessageBox.Show($"Вы точно хотите удалить «{selectedItem.filename}» ?", "Подтверждение", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (confirmation == MessageBoxResult.OK)
+                {
+                    sourceFiles.filepath = selectedItem.filepath;
+                    sourceFiles.filename = selectedItem.filename;
+                    if (sourceFiles.DeleteFile())
+                    {
+                        listview_items.Remove(selectedItem);
+                        MessageBox.Show($"Файл «{selectedItem.filename}» был успешно удален", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+
+                }
+
+
+            }
+
+            else MessageBox.Show("Для удаления элемента необходимо его сначала выделить!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         private void Reset_Click(object sender, RoutedEventArgs e) 
         { 
-        
+
         }
     }
     public class FileItem

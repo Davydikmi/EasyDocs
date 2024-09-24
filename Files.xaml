@@ -85,8 +85,8 @@
         </ListView>
         <Rectangle HorizontalAlignment="Left" Fill="#6ab1c7" Height="561" Stroke="#6ab1c7" VerticalAlignment="Center" Width="349"/>
         <StackPanel Orientation="Vertical" Margin="0,0,685,0">
-            <Button Content="Добавить" Click="Add_Click"/>
-            <Button Content="Удалить" Click="Delete_Click"/>
+            <Button Name="b1" Content="Добавить" Click="Add_Click"/>
+            <Button Name="b2" Content="Удалить" Click="Delete_Click"/>
         </StackPanel>
         <Button Content="Сброс" Margin="0,506,685,0" Click="Reset_Click"/>
         <Rectangle Stroke="#586770" Margin="349,30,0,527" Fill="#586770"/>
