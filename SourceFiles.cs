@@ -15,18 +15,22 @@ namespace EasyDocs
         public string filepath { get; set; }
         private const string folder_name = "source_files";
        
-        public void AddFile()
+        public bool AddFile()
         {
             string projectDirectory = Directory.GetCurrentDirectory();
             string targetDirectory = System.IO.Path.Combine(projectDirectory, folder_name);
 
             // Проверка на существование папки
             if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
-
-            // Определение целевого пути, куда будет копироваться файл
-            string targetFilePath = System.IO.Path.Combine(targetDirectory, filename);
-            // Копирование файла
-            File.Copy(filepath, targetFilePath, overwrite: true);
+            if (CheckDuplicateFileName())
+            {
+                // Определение целевого пути, куда будет копироваться файл
+                string targetFilePath = System.IO.Path.Combine(targetDirectory, filename);
+                // Копирование файла
+                File.Copy(filepath, targetFilePath, overwrite: true);
+                return true;
+            }
+            else return false;
         }
 
         public bool DeleteFile() 
@@ -49,10 +53,10 @@ namespace EasyDocs
             string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
             if (Directory.Exists(targetDirectory))
             {
-                // Получаем все файлы в папке
+                // Получение всех файлов в папке
                 string[] files = Directory.GetFiles(targetDirectory);
 
-                // Удаляем каждый файл в папке
+                // Удаление каждого файла
                 foreach (string file in files)
                 {
                     try
@@ -67,6 +71,31 @@ namespace EasyDocs
 
             }
             else MessageBox.Show("Папка с файлами не найдена.");
+        }
+
+        private bool CheckDuplicateFileName()
+        {
+            string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
+            if (Directory.Exists(targetDirectory))
+            {
+                string[] files = Directory.GetFiles(targetDirectory);
+
+                foreach (string file in files)
+                {
+                    if (Path.GetFileName(file).Equals(filename, StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show("Файл с таким именем уже существует в папке программы!","Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Папка с файлами не найдена!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); 
+                return false;
+            }
+
         }
     }
 }

@@ -42,15 +42,16 @@ namespace EasyDocs
             }
 
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Документы (*.doc; *.docx; *.txt;)|*.doc;*.docx;*.txt";
+            fileDialog.Filter = "Документы (*.doc; *.docx;)|*.doc;*.docx;";
             bool? success = fileDialog.ShowDialog();
             if (success == true)
             {
                 SourceFiles sourceFiles = new SourceFiles();
                 sourceFiles.filename = fileDialog.SafeFileName;
                 sourceFiles.filepath = fileDialog.FileName;
-                listview_items.Add(new SourceFiles { filename = sourceFiles.filename });
-                sourceFiles.AddFile();
+
+                if (sourceFiles.AddFile()) listview_items.Add(new SourceFiles { filename = sourceFiles.filename });
+                
             }
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
