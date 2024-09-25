@@ -46,7 +46,27 @@ namespace EasyDocs
         
         public void ResetFiles()
         {
+            string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
+            if (Directory.Exists(targetDirectory))
+            {
+                // Получаем все файлы в папке
+                string[] files = Directory.GetFiles(targetDirectory);
 
+                // Удаляем каждый файл в папке
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show($"Не удалось удалить файл: {file}. Ошибка: {ex.Message}");
+                    }
+                }
+
+            }
+            else MessageBox.Show("Папка с файлами не найдена.");
         }
     }
 }
