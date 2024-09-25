@@ -91,10 +91,27 @@ namespace EasyDocs
             MessageBox.Show("Файлы были успешно удалены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
-    }
-    public class FileItem
-    {
-        public string FileName { get; set; }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdatePage();
+        }
+        private void UpdatePage()
+        {
+            SourceFiles sourceFiles = new SourceFiles();
+
+            if (Directory.Exists(sourceFiles.targetDirectory))
+            {
+                listview_items.Clear();
+                string[] files = Directory.GetFiles(sourceFiles.targetDirectory);
+                foreach (string file in files)
+                {
+                    listview_items.Add(new SourceFiles { filename = System.IO.Path.GetFileName(file) });
+                }
+
+            }
+            else MessageBox.Show("Папка с файлами не найдена.");
+        }
     }
 
 }

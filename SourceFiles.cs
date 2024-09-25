@@ -13,13 +13,12 @@ namespace EasyDocs
     {
         public string filename { get; set; }
         public string filepath { get; set; }
-        private const string folder_name = "source_files";
-       
+        public const string folder_name = "source_files";
+        public string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
+        public string projectDirectory = Directory.GetCurrentDirectory();
+
         public bool AddFile()
         {
-            string projectDirectory = Directory.GetCurrentDirectory();
-            string targetDirectory = System.IO.Path.Combine(projectDirectory, folder_name);
-
             // Проверка на существование папки
             if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
             if (CheckDuplicateFileName())
@@ -50,7 +49,6 @@ namespace EasyDocs
         
         public void ResetFiles()
         {
-            string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
             if (Directory.Exists(targetDirectory))
             {
                 // Получение всех файлов в папке
@@ -75,7 +73,6 @@ namespace EasyDocs
 
         private bool CheckDuplicateFileName()
         {
-            string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
             if (Directory.Exists(targetDirectory))
             {
                 string[] files = Directory.GetFiles(targetDirectory);

@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:EasyDocs"
       mc:Ignorable="d" 
       d:DesignHeight="561" d:DesignWidth="1034"
-      Title="Files" Background="White">
+      Title="Files" Background="White"
+      Loaded="Page_Loaded">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Height" Value="55"></Setter>
