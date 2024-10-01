@@ -26,7 +26,7 @@ namespace EasyDocs
             MyFrame.Content = new MainPage();
             MainPageButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
-            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);
             ChangeToUnpressedColor(InstructionButton);
         }
@@ -35,15 +35,15 @@ namespace EasyDocs
             MyFrame.Content = new MainPage();
             MainPageButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
-            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);
             ChangeToUnpressedColor(InstructionButton);
         }
         private void Tourists_click(object sender, RoutedEventArgs e)
         {
-            MyFrame.Content = new Tourists();
-            TouristsButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
-            TouristsButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            MyFrame.Content = new ClientPage();
+            ClientDataButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            ClientDataButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
             ChangeToUnpressedColor(FilesButton);
             ChangeToUnpressedColor(InstructionButton);
@@ -55,7 +55,7 @@ namespace EasyDocs
             FilesButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             FilesButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
-            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(InstructionButton);
         }
 
@@ -64,7 +64,7 @@ namespace EasyDocs
             InstructionButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             InstructionButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
-            ChangeToUnpressedColor(TouristsButton);
+            ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);
         }
 

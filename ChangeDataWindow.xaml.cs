@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace EasyDocs
 {
     /// <summary>
-    /// Логика взаимодействия для Tourists.xaml
+    /// Логика взаимодействия для ChangeDataWindow.xaml
     /// </summary>
-    public partial class Tourists : Page
+    public partial class ChangeDataWindow : Window
     {
-        public Tourists()
+        public ChangeDataWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
         }
     }
 }

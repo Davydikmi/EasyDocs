@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyDocs"
         mc:Ignorable="d"
-        Title="EasyDocs" Height="650" Width="1050" ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
+        Title="EasyDocs" Height="650" Width="1050" ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="Button">
             <!-- Основные параметры -->
@@ -51,7 +52,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Name="MainPageButton" Content="Главная" Click="MainButton_click"></Button>
-            <Button Name="TouristsButton" Content="Туристы" Click="Tourists_click"></Button>
+            <Button Name="ClientDataButton" Content="Данные заказчиков" Click="Tourists_click"></Button>
             <Button Name="FilesButton" Content="Файлы" Click="Files_click"></Button>
             <Button Name="InstructionButton" Content="Инструкция" Click="Instruction_click"></Button>
         </StackPanel>
