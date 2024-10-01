@@ -23,5 +23,25 @@ namespace EasyDocs
         {
             InitializeComponent();
         }
+
+        public void RemoveText(object sender, EventArgs e)
+        {
+            TextBox instance = (TextBox)sender;
+            if (instance.Text == instance.Tag.ToString())
+            { 
+                instance.Text = "";
+                instance.Foreground = System.Windows.Media.Brushes.Black;
+            }
+        }
+
+        public void AddText(object sender, EventArgs e)
+        {
+            TextBox instance = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(instance.Text))
+            {
+                instance.Text = instance.Tag.ToString();
+                instance.Foreground = System.Windows.Media.Brushes.Gray;
+            }
+        }
     }
 }

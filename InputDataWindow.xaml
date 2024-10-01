@@ -8,7 +8,10 @@
         mc:Ignorable="d"
         Title="Окно ввода данных" Height="493" Width="419" WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow" >
+    
+    
     <Window.Resources>
+        
         <!-- Общий стиль для всех TextBox -->
         <Style TargetType="TextBox">
             <Setter Property="Height" Value="40" />
@@ -19,16 +22,9 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="5,0" />
-
-            <!-- Placeholder text -->
-            <Setter Property="Foreground" Value="Gray" />
-            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" />
-            <Style.Triggers>
-                <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Text" Value="" />
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="Foreground" Value="Gray"/>
+            <EventSetter Event="GotFocus" Handler="RemoveText"/>
+            <EventSetter Event="LostFocus" Handler="AddText"/>
         </Style>
     </Window.Resources>
 
@@ -52,12 +48,12 @@
                    HorizontalAlignment="Center"
                    Margin="0,0,0,10" />
 
-        <TextBox x:Name="fullNameTextBox" Grid.Row="1" Tag="ФИО"/>
-        <TextBox x:Name="phoneNumberTextBox" Grid.Row="2" Tag="Номер телефона" />
-        <TextBox x:Name="birthDateTextBox" Grid.Row="3" Tag="Дата рождения (ДД.ММ.ГГГГ)" />
-        <TextBox x:Name="addressTextBox" Grid.Row="4" Tag="Адрес" />
-        <TextBox x:Name="passportTextBox" Grid.Row="5" Tag="Серия и номер паспорта" />
-        <TextBox x:Name="idNumberTextBox" Grid.Row="6" Tag="Идентификационный номер" />
+        <TextBox x:Name="fullNameTextBox" Grid.Row="1" Text="ФИО" Tag="ФИО"/>
+        <TextBox x:Name="phoneNumberTextBox" Grid.Row="2" Text="Номер телефона" Tag="Номер телефона" />
+        <TextBox x:Name="birthDateTextBox" Grid.Row="3" Text="Дата рождения (ДД.ММ.ГГГГ)" Tag="Дата рождения (ДД.ММ.ГГГГ)"/>
+        <TextBox x:Name="addressTextBox" Grid.Row="4" Text="Адрес" Tag="Адрес"/>
+        <TextBox x:Name="passportTextBox" Grid.Row="5" Text="Серия и номер паспорта" Tag="Серия и номер паспорта"/>
+        <TextBox x:Name="idNumberTextBox" Grid.Row="6" Text="Идентификационный номер" Tag="Идентификационный номер"/>
         <Rectangle Grid.Row="7" Margin="0,40,0,45" Grid.RowSpan="3"/>
 
         <Button x:Name="addButton"
