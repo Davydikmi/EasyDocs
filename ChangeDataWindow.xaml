@@ -5,8 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyDocs"
         mc:Ignorable="d"
-        Title="ChangeDataWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
-        
+        Title="Окно изменения данных" Height="493" Width="419" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
+
+    <Window.Resources>
+
+        <!-- Общий стиль для всех TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="Foreground" Value="Gray"/>
+            <EventSetter Event="GotFocus" Handler="RemoveText"/>
+            <EventSetter Event="LostFocus" Handler="AddText"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Изменение данных"
+                   FontWeight="Bold"
+                   FontSize="25"
+                   FontFamily="Oswald"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10" />
+
+        <TextBox x:Name="fullNameTextBox" Grid.Row="1" Text="ФИО" Tag="ФИО"/>
+        <TextBox x:Name="phoneNumberTextBox" Grid.Row="2" Text="Номер телефона" Tag="Номер телефона" />
+        <TextBox x:Name="birthDateTextBox" Grid.Row="3" Text="Дата рождения (ДД.ММ.ГГГГ)" Tag="Дата рождения (ДД.ММ.ГГГГ)"/>
+        <TextBox x:Name="addressTextBox" Grid.Row="4" Text="Адрес" Tag="Адрес"/>
+        <TextBox x:Name="passportTextBox" Grid.Row="5" Text="Серия и номер паспорта" Tag="Серия и номер паспорта"/>
+        <TextBox x:Name="idNumberTextBox" Grid.Row="6" Text="Идентификационный номер" Tag="Идентификационный номер"/>
+        <Rectangle Grid.Row="7" Margin="0,40,0,45" Grid.RowSpan="3"/>
+
+        <Button x:Name="addButton"
+                Grid.Row="8"
+                Content="Изменить"
+                Height="46"
+                FontFamily="Oswald"
+                FontSize="25"
+                Background="#2AB1C7"
+                Foreground="White"
+                BorderBrush="Transparent"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Padding="10,0" Width="379" Margin="0,39,0,0"/>
     </Grid>
 </Window>

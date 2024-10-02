@@ -24,6 +24,8 @@ namespace EasyDocs
             InitializeComponent();
         }
 
+        //TextBox Placeholder 
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         public void RemoveText(object sender, EventArgs e)
         {
             TextBox instance = (TextBox)sender;
@@ -42,6 +44,23 @@ namespace EasyDocs
                 instance.Text = instance.Tag.ToString();
                 instance.Foreground = System.Windows.Media.Brushes.Gray;
             }
+        }
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClientData clientData = new ClientData();
+            clientData.FIO = fioTextBox.Text;
+            clientData.phone_numb = phoneNumberTextBox.Text;
+            clientData.birth_date = birthDateTextBox.Text;
+            clientData.adress = adressTextBox.Text;
+            clientData.passport_SeriesNumb = passportTextBox.Text;
+            clientData.id_numb = idNumberTextBox.Text;
+
+            clientData.AddClientToJson(clientData);
+
+            this.Close();
+            
         }
     }
 }
