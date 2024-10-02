@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Globalization;
+
 
 namespace EasyDocs
 {
@@ -57,9 +60,25 @@ namespace EasyDocs
             clientData.passport_SeriesNumb = passportTextBox.Text;
             clientData.id_numb = idNumberTextBox.Text;
 
-            clientData.AddClientToJson(clientData);
+            var validationContext = new ValidationContext(clientData);
+            var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+            if(!Validator.TryValidateObject(clientData, validationContext, validationResults, true))
+            {
+                StringBuilder errorMessages = new StringBuilder();
+                foreach (var error in validationResults)
+                {
+                    MessageBox.Show(error.ErrorMessage);
+                }
+                MessageBox.Show(errorMessages.ToString(), "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            else
+            {
+                clientData.AddClientToJson();
+                this.Close();
+            }
 
-            this.Close();
+
             
         }
     }
