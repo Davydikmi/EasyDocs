@@ -67,9 +67,8 @@ namespace EasyDocs
                 StringBuilder errorMessages = new StringBuilder();
                 foreach (var error in validationResults)
                 {
-                    MessageBox.Show(error.ErrorMessage);
+                    MessageBox.Show(error.ErrorMessage,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
                 }
-                MessageBox.Show(errorMessages.ToString(), "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             else
@@ -79,7 +78,6 @@ namespace EasyDocs
             }
 
 
-            
         }
     }
 }

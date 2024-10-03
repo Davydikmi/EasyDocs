@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="561" d:DesignWidth="1034"
       Background="White"
-      Title="ClientPage">
+      Title="ClientPage" Loaded="UpdatePage">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Height" Value="55"></Setter>
@@ -44,7 +44,7 @@
     </Page.Resources>
 
     <Grid>
-        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="689" FontSize="18" Foreground="Black">
+        <ListView x:Name="DataListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="689" FontSize="18" Foreground="Black">
             <!-- Cтиль для заголовка GridViewColumnHeader -->
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
@@ -75,9 +75,9 @@
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ФИО" Width="300" DisplayMemberBinding="{Binding FullName}" />
-                    <GridViewColumn Header="Дата рождения" Width="170" DisplayMemberBinding="{Binding BirthDate}" />
-                    <GridViewColumn Header="Идентиф. номер" Width="200" DisplayMemberBinding="{Binding IdNumber}" />
+                    <GridViewColumn Header="ФИО" Width="300" DisplayMemberBinding="{Binding FIO}" />
+                    <GridViewColumn Header="Дата рождения" Width="170" DisplayMemberBinding="{Binding birth_date}" />
+                    <GridViewColumn Header="Идентиф. номер" Width="200" DisplayMemberBinding="{Binding id_numb}" />
                 </GridView>
             </ListView.View>
         </ListView>

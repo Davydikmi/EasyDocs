@@ -94,10 +94,6 @@ namespace EasyDocs
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdatePage();
-        }
-        private void UpdatePage()
-        {
             SourceFiles sourceFiles = new SourceFiles();
 
             if (Directory.Exists(sourceFiles.targetDirectory))
