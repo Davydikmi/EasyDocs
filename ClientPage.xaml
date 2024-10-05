@@ -75,9 +75,12 @@
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ФИО" Width="300" DisplayMemberBinding="{Binding FIO}" />
-                    <GridViewColumn Header="Дата рождения" Width="170" DisplayMemberBinding="{Binding birth_date}" />
-                    <GridViewColumn Header="Идентиф. номер" Width="200" DisplayMemberBinding="{Binding id_numb}" />
+                    <GridViewColumn Header="ФИО" Width="350" DisplayMemberBinding="{Binding FIO}" />
+                    <GridViewColumn Header="Дата рождения" Width="200" DisplayMemberBinding="{Binding birth_date}" />
+                    <GridViewColumn Header="Идентиф. номер" Width="250" DisplayMemberBinding="{Binding id_numb}" />
+                    <GridViewColumn Header="Серия и номер паспорта" Width="300" DisplayMemberBinding="{Binding passport_SeriesNumb}" />
+                    <GridViewColumn Header="Номер телефона" Width="250" DisplayMemberBinding="{Binding phone_numb}" />
+                    <GridViewColumn Header="Адрес" Width="350" DisplayMemberBinding="{Binding adress}" />
                 </GridView>
             </ListView.View>
         </ListView>

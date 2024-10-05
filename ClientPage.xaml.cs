@@ -23,9 +23,6 @@ namespace EasyDocs
     /// </summary>
     public partial class ClientPage : Page
     {
-            public string FullName { get; set; }
-    public string BirthDate { get; set; }
-    public int Id { get; set; }
         public ObservableCollection<ClientData> listview_items { get; set; }
 
         public ClientPage()
@@ -47,7 +44,20 @@ namespace EasyDocs
             ChangeDataWindow changeDataWindow = new ChangeDataWindow();
             changeDataWindow.ShowDialog();
         }
-        private void Delete_Click(object sender, RoutedEventArgs e) { }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            ClientData clientData = new ClientData();
+            if(DataListView.SelectedItem == null)
+            {
+                MessageBox.Show("Что бы удалить элемент, сперва его необходимо выделить в таблице.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var selectedClient = (ClientData) DataListView.SelectedItem;
+            clientData.FIO = selectedClient.FIO;
+            clientData.birth_date = selectedClient.birth_date;
+            clientData.id_numb = selectedClient.id_numb;
+
+        }
         private void Reset_Click(object sender, RoutedEventArgs e) { }
         private void UpdatePage(object sender, RoutedEventArgs e)
         {
@@ -61,8 +71,10 @@ namespace EasyDocs
 
             if (File.Exists(ClientData.filepath))
             {
+                string jsonData = File.ReadAllText(ClientData.filepath);
+                try 
+                {
 
-                    string jsonData = File.ReadAllText(ClientData.filepath);
                     List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData);
 
 
@@ -75,11 +87,20 @@ namespace EasyDocs
                             {
                                 FIO = client.FIO,
                                 birth_date = client.birth_date,
-                                id_numb = client.id_numb
+                                id_numb = client.id_numb,
+                                adress = client.adress,
+                                phone_numb = client.phone_numb,
+                                passport_SeriesNumb = client.passport_SeriesNumb,
                             });
                         }
                     }
 
+                }
+                catch(Exception ex) 
+                {
+                    MessageBox.Show(ex.Message,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                }
+                  
 
             }
         }
