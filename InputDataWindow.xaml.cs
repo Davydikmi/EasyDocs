@@ -73,7 +73,7 @@ namespace EasyDocs
             }
             else
             {
-                clientData.AddClientToJson();
+                clientData.AddClient();
                 this.Close();
             }
 

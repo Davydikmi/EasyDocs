@@ -37,7 +37,7 @@ namespace EasyDocs
 
         public const string filepath = "ClientData.json";
 
-        public void AddClientToJson()
+        public void AddClient()
         {
             List<ClientData> clients = new List<ClientData>();
 
@@ -54,6 +54,69 @@ namespace EasyDocs
             string updatedData = JsonConvert.SerializeObject(clients, Formatting.Indented);
             File.WriteAllText(filepath, updatedData);
         }
+
+        public void DeleteClient()
+        {
+            List<ClientData> clients = new List<ClientData>();
+            if (File.Exists(filepath))
+            {
+                string existingData = File.ReadAllText(filepath);
+                clients = JsonConvert.DeserializeObject<List<ClientData>>(existingData) ?? new List<ClientData>();
+
+                var clientToRemove = clients.FirstOrDefault(client => client.id_numb == id_numb);
+                if (clientToRemove != null)
+                {
+                    // Удаляем клиента из списка
+                    clients.Remove(clientToRemove);
+
+                    // Сохраняем обновлённый список обратно в JSON-файл
+                    string updatedJsonData = JsonConvert.SerializeObject(clients, Formatting.Indented);
+                    File.WriteAllText(filepath, updatedJsonData);
+
+                    MessageBox.Show("Клиент успешно удалён.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Клиент с указанным идентификационным номером не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+            else MessageBox.Show("Файл с данными не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+
+        public void ChangeClient(ClientData inputClientData)
+        {
+            if (!File.Exists(filepath))
+            {
+                Console.WriteLine("Файл с данными клиентов не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string jsonData = File.ReadAllText(filepath);
+            List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData) ?? new List<ClientData>();
+
+            // Поиск клиента по идентификационному номеру (можно выбрать другой уникальный критерий)
+            var existingClient = clients.FirstOrDefault(c => c.id_numb == inputClientData.id_numb);
+
+            if (existingClient != null)
+            {
+                existingClient.FIO = inputClientData.FIO;
+                existingClient.phone_numb = inputClientData.phone_numb;
+                existingClient.birth_date = inputClientData.birth_date;
+                existingClient.adress = inputClientData.adress;
+                existingClient.passport_SeriesNumb = inputClientData.passport_SeriesNumb;
+            }
+            else
+            {
+                Console.WriteLine("Клиент с заданным идентификационным номером не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string updatedData = JsonConvert.SerializeObject(clients, Formatting.Indented);
+            File.WriteAllText(filepath, updatedData);
+        }
+
     }
 
 

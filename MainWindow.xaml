@@ -52,7 +52,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Name="MainPageButton" Content="Главная" Click="MainButton_click"></Button>
-            <Button Name="ClientDataButton" Content="Данные заказчиков" Click="Tourists_click"></Button>
+            <Button Name="ClientDataButton" Content="Данные клиентов" Click="Tourists_click"></Button>
             <Button Name="FilesButton" Content="Файлы" Click="Files_click"></Button>
             <Button Name="InstructionButton" Content="Инструкция" Click="Instruction_click"></Button>
         </StackPanel>

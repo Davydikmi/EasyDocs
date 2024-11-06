@@ -41,8 +41,23 @@ namespace EasyDocs
         }
         private void Change_Click(object sender, RoutedEventArgs e)
         {
-            ChangeDataWindow changeDataWindow = new ChangeDataWindow();
+            ClientData clientData = new ClientData();
+            if (DataListView.SelectedItem == null)
+            {
+                MessageBox.Show("Что бы изменить элемент, сперва его необходимо выделить в таблице.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var selectedClient = (ClientData)DataListView.SelectedItem;
+            clientData.FIO = selectedClient.FIO;
+            clientData.birth_date = selectedClient.birth_date;
+            clientData.id_numb = selectedClient.id_numb;
+            clientData.adress = selectedClient.adress;
+            clientData.passport_SeriesNumb = selectedClient.passport_SeriesNumb;
+            clientData.phone_numb = selectedClient.phone_numb;
+
+            ChangeDataWindow changeDataWindow = new ChangeDataWindow(clientData);
             changeDataWindow.ShowDialog();
+            UpdateListView();
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
@@ -56,15 +71,30 @@ namespace EasyDocs
             clientData.FIO = selectedClient.FIO;
             clientData.birth_date = selectedClient.birth_date;
             clientData.id_numb = selectedClient.id_numb;
+            clientData.adress = selectedClient.adress;
+            clientData.passport_SeriesNumb = selectedClient.passport_SeriesNumb;
+            clientData.phone_numb = selectedClient.phone_numb;
 
-        }
-        private void Reset_Click(object sender, RoutedEventArgs e) { }
-        private void UpdatePage(object sender, RoutedEventArgs e)
-        {
+            MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите удалить данные «{clientData.FIO}» ?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes) clientData.DeleteClient();
             UpdateListView();
-        }
 
-        public void UpdateListView()
+        }
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите удалить данные всех клиентов ?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes) 
+            {
+                listview_items.Clear();
+                if (File.Exists(ClientData.filepath)) File.WriteAllText(ClientData.filepath, "[]");
+                
+                MessageBox.Show("Данные всех клиентов были успешно удалены.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
+                UpdateListView();
+
+            }
+        }
+        private void UpdatePage(object sender, RoutedEventArgs e)  { UpdateListView(); }
+        private void UpdateListView()
         {
 
             listview_items.Clear();

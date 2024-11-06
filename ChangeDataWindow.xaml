@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EasyDocs"
         mc:Ignorable="d"
         Title="Окно изменения данных" Height="493" Width="419" WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
+        ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow" Loaded="UpdateWindow">
 
     <Window.Resources>
 
@@ -20,7 +20,7 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="5,0" />
-            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Foreground" Value="Black"/>
             <EventSetter Event="GotFocus" Handler="RemoveText"/>
             <EventSetter Event="LostFocus" Handler="AddText"/>
         </Style>
@@ -51,7 +51,7 @@
         <TextBox x:Name="birthDateTextBox" Grid.Row="3" Text="Дата рождения (ДД.ММ.ГГГГ)" Tag="Дата рождения (ДД.ММ.ГГГГ)"/>
         <TextBox x:Name="addressTextBox" Grid.Row="4" Text="Адрес" Tag="Адрес"/>
         <TextBox x:Name="passportTextBox" Grid.Row="5" Text="Серия и номер паспорта" Tag="Серия и номер паспорта"/>
-        <TextBox x:Name="idNumberTextBox" Grid.Row="6" Text="Идентификационный номер" Tag="Идентификационный номер"/>
+        <TextBox x:Name="idNumberTextBox" Grid.Row="6" Text="Идентификационный номер" Tag="Идентификационный номер" Foreground="Gray" IsReadOnly="True"/>
         <Rectangle Grid.Row="7" Margin="0,40,0,45" Grid.RowSpan="3"/>
 
         <Button x:Name="addButton"
@@ -65,6 +65,6 @@
                 BorderBrush="Transparent"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
-                Padding="10,0" Width="379" Margin="0,39,0,0"/>
+                Padding="10,0" Width="379" Margin="0,39,0,0" Click="addButton_Click"/>
     </Grid>
 </Window>
