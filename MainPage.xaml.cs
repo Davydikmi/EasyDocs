@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace EasyDocs
 {
@@ -24,5 +26,84 @@ namespace EasyDocs
         {
             InitializeComponent();
         }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+
+            if (File.Exists(ClientData.filepath))
+            {
+
+                try
+                {
+                    string jsonData = File.ReadAllText(ClientData.filepath);
+
+                    List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData);
+                    //Отсортировать этот лист по алфавиту
+                    //....
+                    //....
+                    //....
+
+                    if (clients != null)
+                    {
+                        foreach (var client in clients)
+                        {
+                            ClientComboBox.Items.Add(client.FIO);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            else MessageBox.Show("Файл с данными клиентов не обнаружен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            SourceFiles sourceFiles = new SourceFiles();
+            if (Directory.Exists(sourceFiles.targetDirectory))
+            {
+                string[] files = Directory.GetFiles(sourceFiles.targetDirectory);
+                foreach (string file in files)
+                {
+                    FileComboBox.Items.Add(System.IO.Path.GetFileName(file));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Папка с файлами не найдена.");
+                return;
+            }
+        }
+
+        private void SelectedClientCB(object sender, SelectionChangedEventArgs e)
+        {
+            if (File.Exists(ClientData.filepath))
+            {
+                string jsonData = File.ReadAllText(ClientData.filepath);
+                List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData) ?? new List<ClientData>();
+                var existingClient = clients.FirstOrDefault(c => c.FIO == ClientComboBox.SelectedItem.ToString());
+
+                if (existingClient != null)
+                {
+                    FIOTextBox.Text = existingClient.FIO;
+                    PhoneNumberTextBox.Text= existingClient.phone_numb;
+                    BirthDateTextBox.Text = existingClient.birth_date;
+                    AddressTextBox.Text = existingClient.adress;
+                    PassportTextBox.Text = existingClient.passport_SeriesNumb;
+                    IDNumberTextBox.Text = existingClient.id_numb;
+                }
+                else
+                {
+                    Console.WriteLine("Клиент с заданным ФИО не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            else 
+            { 
+                MessageBox.Show("Файл с данными клиентов не обнаружен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
+
     }
 }

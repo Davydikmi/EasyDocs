@@ -101,9 +101,10 @@ namespace EasyDocs
 
             if (File.Exists(ClientData.filepath))
             {
-                string jsonData = File.ReadAllText(ClientData.filepath);
+
                 try 
                 {
+                    string jsonData = File.ReadAllText(ClientData.filepath);
 
                     List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData);
 
@@ -133,6 +134,9 @@ namespace EasyDocs
                   
 
             }
+            else MessageBox.Show("Файл с данными клиентов не обнаружен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
         }
     }
 }

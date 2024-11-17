@@ -28,7 +28,7 @@ namespace EasyDocs
             MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);
-            ChangeToUnpressedColor(InstructionButton);
+            ChangeToUnpressedColor(SettingsButton);
         }
         private void MainButton_click(object sender, RoutedEventArgs e)
         {
@@ -37,7 +37,7 @@ namespace EasyDocs
             MainPageButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);
-            ChangeToUnpressedColor(InstructionButton);
+            ChangeToUnpressedColor(SettingsButton);
         }
         private void Tourists_click(object sender, RoutedEventArgs e)
         {
@@ -46,7 +46,7 @@ namespace EasyDocs
             ClientDataButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
             ChangeToUnpressedColor(FilesButton);
-            ChangeToUnpressedColor(InstructionButton);
+            ChangeToUnpressedColor(SettingsButton);
         }
 
         private void Files_click(object sender, RoutedEventArgs e)
@@ -56,13 +56,13 @@ namespace EasyDocs
             FilesButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
             ChangeToUnpressedColor(ClientDataButton);
-            ChangeToUnpressedColor(InstructionButton);
+            ChangeToUnpressedColor(SettingsButton);
         }
 
         private void Instruction_click(object sender, RoutedEventArgs e)
         {
-            InstructionButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
-            InstructionButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            SettingsButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
+            SettingsButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
             ChangeToUnpressedColor(ClientDataButton);
             ChangeToUnpressedColor(FilesButton);

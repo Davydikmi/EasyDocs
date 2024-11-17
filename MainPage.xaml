@@ -5,11 +5,63 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EasyDocs"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage"
-      Background="LightBlue">
+      d:DesignHeight="561" d:DesignWidth="1034"
+      Title="MainPage" 
+      Background="White" Loaded="PageLoaded">
 
-    <Grid>
-        
+    <Page.Resources>
+
+        <!-- Общий стиль для всех TextBox -->
+
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="457"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedItem, ElementName=ClientComboBox}" Value="{x:Null}">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <!-- Разделение на две колонки -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая колонка - информация о клиенте -->
+        <StackPanel Grid.Column="0" Margin="10,10,10,10">
+            <TextBlock Text="Выберите клиента:" FontSize="22" FontWeight="Bold" Margin="0,0,0,10" Width="476"/>
+            <ComboBox x:Name="ClientComboBox" FontSize="18" Height="30" Width="457" SelectionChanged="SelectedClientCB"/>
+            <TextBox x:Name="FIOTextBox" Text="ФИО"/>
+            <TextBox x:Name="BirthDateTextBox" Text="Дата рождения"/>
+            <TextBox x:Name="PhoneNumberTextBox" Text="Номер телефона"/>
+            <TextBox x:Name="AddressTextBox" Text="Адрес"/>
+            <TextBox x:Name="PassportTextBox" Text="Серия и номер паспорта"/>
+            <TextBox x:Name="IDNumberTextBox" Text="Идентификационный номер"/>
+        </StackPanel>
+
+        <!-- Правая колонка - выбор файла и кнопка заполнения -->
+        <StackPanel Grid.Column="1" Margin="10,10,10,10">
+            <TextBlock Text="Выберите файл для заполнения:" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
+            <ComboBox x:Name="FileComboBox" FontSize="18" Height="30" Width="477" Margin="0,0,0,20"/>
+
+            <!-- Дополнительная информация -->
+        </StackPanel>
+
+        <!-- Кнопка заполнения внизу -->
+        <Button x:Name="FillButton" Content="Заполнить" FontSize="22" Height="50" Width="200" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="287,0,0,10" Grid.Column="1"/>
     </Grid>
 </Page>
