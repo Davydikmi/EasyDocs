@@ -61,6 +61,7 @@ namespace EasyDocs
 
         private void Instruction_click(object sender, RoutedEventArgs e)
         {
+            MyFrame.Content = new SettingsPage();
             SettingsButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             SettingsButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D7B94"));
             ChangeToUnpressedColor(MainPageButton);
