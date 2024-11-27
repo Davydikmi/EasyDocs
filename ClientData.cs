@@ -69,7 +69,7 @@ namespace EasyDocs
                     // Удаляем клиента из списка
                     clients.Remove(clientToRemove);
 
-                    // Сохраняем обновлённый список обратно в JSON-файл
+                    // Сохранение обновлённый список обратно в JSON-файл
                     string updatedJsonData = JsonConvert.SerializeObject(clients, Formatting.Indented);
                     File.WriteAllText(filepath, updatedJsonData);
 

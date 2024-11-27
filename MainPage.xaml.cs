@@ -32,24 +32,21 @@ namespace EasyDocs
 
             if (File.Exists(ClientData.filepath))
             {
-
                 try
                 {
                     string jsonData = File.ReadAllText(ClientData.filepath);
 
                     List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData);
-                    //Отсортировать этот лист по алфавиту
-                    //....
-                    //....
-                    //....
 
                     if (clients != null)
                     {
-                        foreach (var client in clients)
+                        var sortedClients = clients.OrderBy(c => c.FIO).ToList();
+                        foreach (var client in sortedClients)
                         {
                             ClientComboBox.Items.Add(client.FIO);
                         }
                     }
+                    else return;
                 }
                 catch (Exception ex)
                 {
@@ -57,7 +54,12 @@ namespace EasyDocs
                 }
             }
 
-            else MessageBox.Show("Файл с данными клиентов не обнаружен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                StreamWriter writer = new StreamWriter(ClientData.filepath);
+                writer.Close();
+            }
+                
 
             SourceFiles sourceFiles = new SourceFiles();
             if (Directory.Exists(sourceFiles.targetDirectory))
@@ -70,8 +72,7 @@ namespace EasyDocs
             }
             else
             {
-                MessageBox.Show("Папка с файлами не найдена.");
-                return;
+                Directory.CreateDirectory(SourceFiles.folder_name);
             }
         }
 

@@ -111,7 +111,8 @@ namespace EasyDocs
 
                     if (clients != null)
                     {
-                        foreach (var client in clients)
+                        var sortedClients = clients.OrderBy(c => c.FIO).ToList();
+                        foreach (var client in sortedClients)
                         {
 
                             listview_items.Add(new ClientData

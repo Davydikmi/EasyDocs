@@ -108,6 +108,11 @@ namespace EasyDocs
             }
             else MessageBox.Show("Папка с файлами не найдена.");
         }
+
+        private void fileListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 
 }
