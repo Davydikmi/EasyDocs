@@ -84,7 +84,7 @@ namespace EasyDocs
             }
             else
             {
-                clientData.ChangeClient(clientData);
+                clientData.UpdateClient(clientData);
                 this.Close();
             }
         }

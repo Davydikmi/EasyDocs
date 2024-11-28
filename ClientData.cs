@@ -85,7 +85,7 @@ namespace EasyDocs
 
         }
 
-        public void ChangeClient(ClientData inputClientData)
+        public void UpdateClient(ClientData inputClientData)
         {
             if (!File.Exists(filepath))
             {

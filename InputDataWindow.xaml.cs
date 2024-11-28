@@ -64,7 +64,6 @@ namespace EasyDocs
             var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
             if(!Validator.TryValidateObject(clientData, validationContext, validationResults, true))
             {
-                StringBuilder errorMessages = new StringBuilder();
                 foreach (var error in validationResults)
                 {
                     MessageBox.Show(error.ErrorMessage,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
