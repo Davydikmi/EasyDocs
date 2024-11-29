@@ -44,9 +44,9 @@
                    FontWeight="Bold" Foreground="#475761" Background="White"
                    TextWrapping="Wrap" Text="Изменение текста меток"
                    VerticalAlignment="Top" Height="57" FontSize="38"
-                   FontFamily="Calibri" Margin="303,10,0,0" Width="428" />
+                   FontFamily="Calibri" Margin="297,16,0,0" Width="428" />
         <Border Grid.Row="0" Grid.ColumnSpan="2" 
-                BorderBrush="#475761" BorderThickness="1" Margin="0,72,0,487" Background="#475761"/>
+  BorderBrush="#475761" BorderThickness="3" Margin="232,67,244,491" Background="#475761"/>
 
         <!-- Левая колонка с TextBox -->
         <StackPanel Grid.Column="0" Margin="10,79,10,182">

@@ -25,6 +25,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="5,0" />
             <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Regular"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding SelectedItem, ElementName=ClientComboBox}" Value="{x:Null}">
                     <Setter Property="Foreground" Value="Gray"/>
@@ -33,35 +34,49 @@
         </Style>
     </Page.Resources>
 
-    <Grid Margin="20">
+    <Grid Margin="20,97,20,20">
+
+
         <!-- Разделение на две колонки -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="257*" />
+            <ColumnDefinition Width="240*" />
         </Grid.ColumnDefinitions>
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+            HorizontalAlignment="Left" TextAlignment="Center"
+            FontWeight="Bold" Foreground="#475761" Background="White"
+            TextWrapping="Wrap" Text="Заполнение документа"
+            VerticalAlignment="Top" Height="57" FontSize="38"
+            FontFamily="Calibri" Margin="285,-83,0,0" Width="428"/>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" 
+         BorderBrush="#475761" BorderThickness="3" Margin="216,-29,236,470" Background="#475761"/>
 
         <!-- Левая колонка - информация о клиенте -->
-        <StackPanel Grid.Column="0" Margin="10,10,10,10">
-            <TextBlock Text="Выберите клиента:" FontSize="22" FontWeight="Bold" Margin="0,0,0,10" Width="476"/>
-            <ComboBox x:Name="ClientComboBox" FontSize="18" Height="30" Width="457" SelectionChanged="SelectedClientCB"/>
-            <TextBox x:Name="FIOTextBox" Text="ФИО"/>
-            <TextBox x:Name="BirthDateTextBox" Text="Дата рождения"/>
-            <TextBox x:Name="PhoneNumberTextBox" Text="Номер телефона"/>
-            <TextBox x:Name="AddressTextBox" Text="Адрес"/>
-            <TextBox x:Name="PassportTextBox" Text="Серия и номер паспорта"/>
-            <TextBox x:Name="IDNumberTextBox" Text="Идентификационный номер"/>
-        </StackPanel>
+        <GroupBox Header="Выберите клиента" FontSize="20" FontWeight="Bold" BorderBrush="gray" BorderThickness="2">
+            <StackPanel Grid.Column="0" Margin="10,10,10,10">
+                <ComboBox x:Name="ClientComboBox" FontSize="18" Height="30" Width="457" SelectionChanged="SelectedClientCB" FontWeight="Regular"/>
+                <TextBox x:Name="FIOTextBox" Text="ФИО"/>
+                <TextBox x:Name="BirthDateTextBox" Text="Дата рождения"/>
+                <TextBox x:Name="PhoneNumberTextBox" Text="Номер телефона"/>
+                <TextBox x:Name="AddressTextBox" Text="Адрес"/>
+                <TextBox x:Name="PassportTextBox" Text="Серия и номер паспорта"/>
+                <TextBox x:Name="IDNumberTextBox" Text="Идентификационный номер"/>
+            </StackPanel>
+        </GroupBox>
 
         <!-- Правая колонка - выбор файла и кнопка заполнения -->
-        <StackPanel Grid.Column="1" Margin="10,10,10,10">
-            <TextBlock Text="Выберите файл для заполнения:" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
-            <ComboBox x:Name="FileComboBox" FontSize="18" Height="30" Width="477" Margin="0,0,0,20"/>
+        <StackPanel Grid.Column="1" Margin="10,0,10,20">
+
+            <TextBlock Text="Выберите файл для заполнения" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
+            <ComboBox x:Name="FileComboBox" FontSize="18" Height="30" Width="456" FontWeight="Regular"/>
 
             <!-- Дополнительная информация -->
         </StackPanel>
 
         <!-- Кнопка заполнения внизу -->
-        <Button x:Name="FillButton" Content="Заполнить" FontSize="22" Height="50" Width="200" 
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="287,0,0,10" Grid.Column="1"/>
+        <Button x:Name="FillButton" Content="Заполнить" FontSize="20" Height="50" Width="200" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="270,0,0,10" Grid.Column="1"/>
     </Grid>
 </Page>
