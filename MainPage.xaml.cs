@@ -106,5 +106,9 @@ namespace EasyDocs
             }
         }
 
+        private void FillButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

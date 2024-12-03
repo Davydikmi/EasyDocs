@@ -42,7 +42,7 @@
             <ColumnDefinition Width="257*" />
             <ColumnDefinition Width="240*" />
         </Grid.ColumnDefinitions>
-        <!-- Заголовок -->
+        
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
             HorizontalAlignment="Left" TextAlignment="Center"
             FontWeight="Bold" Foreground="#475761" Background="White"
@@ -53,7 +53,6 @@
         <Border Grid.Row="0" Grid.ColumnSpan="2" 
          BorderBrush="#475761" BorderThickness="3" Margin="216,-29,236,470" Background="#475761"/>
 
-        <!-- Левая колонка - информация о клиенте -->
         <GroupBox Header="Выберите клиента" FontSize="20" FontWeight="Bold" BorderBrush="gray" BorderThickness="2">
             <StackPanel Grid.Column="0" Margin="10,10,10,10">
                 <ComboBox x:Name="ClientComboBox" FontSize="18" Height="30" Width="457" SelectionChanged="SelectedClientCB" FontWeight="Regular"/>
@@ -65,18 +64,18 @@
                 <TextBox x:Name="IDNumberTextBox" Text="Идентификационный номер"/>
             </StackPanel>
         </GroupBox>
-
-        <!-- Правая колонка - выбор файла и кнопка заполнения -->
-        <StackPanel Grid.Column="1" Margin="10,0,10,20">
-
+        
+        <StackPanel Grid.Column="1" Margin="10,0,10,0">
             <TextBlock Text="Выберите файл для заполнения" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
             <ComboBox x:Name="FileComboBox" FontSize="18" Height="30" Width="456" FontWeight="Regular"/>
-
-            <!-- Дополнительная информация -->
         </StackPanel>
-
-        <!-- Кнопка заполнения внизу -->
-        <Button x:Name="FillButton" Content="Заполнить" FontSize="20" Height="50" Width="200" 
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="270,0,0,10" Grid.Column="1"/>
+        <Button x:Name="FillButton"
+                    Content="Заполнить"
+                    FontFamily="Bahnschrift"
+                    FontSize="35"
+                    Background="#2AB1C7"
+                    Foreground="White"
+                    BorderBrush="Transparent"
+                    Padding="10,0" Grid.Column="1" Margin="203,376,10,10" Click="FillButton_Click"/>
     </Grid>
 </Page>

@@ -79,8 +79,8 @@ namespace EasyDocs
                 foreach (var error in validationResults)
                 {
                     MessageBox.Show(error.ErrorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-                return;
             }
             else
             {

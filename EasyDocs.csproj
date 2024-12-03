@@ -92,12 +92,12 @@
     <Compile Include="InputDataWindow.xaml.cs">
       <DependentUpon>InputDataWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotEqualsTo.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SourceFiles.cs" />
     <Compile Include="TextReplacer.cs" />
+    <Compile Include="ValidationAttributes.cs" />
     <Page Include="ChangeDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
