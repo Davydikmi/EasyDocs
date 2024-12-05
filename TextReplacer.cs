@@ -9,6 +9,8 @@ using System.Windows;
 using System.IO;
 using System.Xml.Linq;
 using System.IO.Packaging;
+using Microsoft.Office.Interop.Word;
+using Microsoft.Win32;
 
 namespace EasyDocs
 {
@@ -89,16 +91,79 @@ namespace EasyDocs
             MessageBox.Show("Метки успешно обновлены", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        public void FillDoc()
+        public void FillDoc(string templateFilename, string filledFilename, Dictionary<string, string> map)
+        {
+
+            string templateFilepath = $"{SourceFiles.folder_name}/{templateFilename}";
+
+            // Проверяем, существует ли исходный файл
+            if (!File.Exists(templateFilepath))
+            {
+                throw new FileNotFoundException("Файл шаблона не найден.");
+            }
+            string filledFilepath = $"{SourceFiles.folder_name}/{filledFilename}";
+            File.Copy(templateFilepath, filledFilepath, overwrite: true);
+
+            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();    // очень много времени уходит
+            Document doc = new Document();
+            try
+            {
+                doc = wordApp.Documents.Open(filledFilepath);   // К сожалению, файл не найден. Может, он был перемещен, переименован или удален?
+
+                foreach (var pair in map) FindAndReplace(wordApp, pair.Key, pair.Value);
+
+                doc.Save();
+            }
+            finally
+            {
+                doc?.Close();
+                wordApp.Quit();
+            }
+
+            // Открытие диалогового окна для выбора пути сохранения
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Word Documents (*.docx)|*.docx|All Files (*.*)|*.*",
+                Title = "Сохранить заполненный файл",
+                FileName = Path.GetFileName(filledFilename)
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string destinationPath = saveFileDialog.FileName;
+                File.Move(filledFilepath, destinationPath);
+            }
+            else File.Delete(filledFilepath);
+        }
+
+        private void FindAndReplace(Microsoft.Office.Interop.Word.Application wordApp, string findText, string replaceText)
+        {
+            Find findObject = wordApp.Selection.Find;
+            findObject.ClearFormatting();
+            findObject.Text = findText;
+            findObject.Replacement.ClearFormatting();
+            findObject.Replacement.Text = replaceText;
+
+            object replaceAll = WdReplace.wdReplaceAll;
+            findObject.Execute(Replace: replaceAll);
+        }
+
+        public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
         {
 
         }
 
-        public void FillDocx()
+        public Dictionary<string, string> MarkersMap(ClientData client)
         {
-
+            return new Dictionary<string, string> 
+            {
+                { FIO_marker, client.FIO },
+                { phone_numb_marker, client.phone_numb },
+                { adress_marker, client.adress },
+                { birth_date_marker, client.birth_date },
+                { passport_SeriesNumb_marker, client.passport_SeriesNumb },
+                { id_numb_marker, client.id_numb }
+            };
         }
-
-
     }
 }

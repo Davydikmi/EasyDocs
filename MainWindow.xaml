@@ -53,7 +53,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Name="MainPageButton" Content="Главная" Click="MainButton_click"></Button>
             <Button Name="ClientDataButton" Content="Данные клиентов" Click="Tourists_click"></Button>
-            <Button Name="FilesButton" Content="Файлы" Click="Files_click"></Button>
+            <Button Name="FilesButton" Content="Шаблоны" Click="Files_click"></Button>
             <Button Name="SettingsButton" Content="Настройки" Click="Instruction_click"></Button>
         </StackPanel>
         <Frame Name="MyFrame" Grid.Row="1" Background="White" NavigationUIVisibility="Hidden" RenderTransformOrigin="0.5,0.5"/>

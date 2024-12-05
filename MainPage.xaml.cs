@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
+using Microsoft.Win32;
+
 
 namespace EasyDocs
 {
@@ -87,7 +89,7 @@ namespace EasyDocs
                 if (existingClient != null)
                 {
                     FIOTextBox.Text = existingClient.FIO;
-                    PhoneNumberTextBox.Text= existingClient.phone_numb;
+                    PhoneNumberTextBox.Text = existingClient.phone_numb;
                     BirthDateTextBox.Text = existingClient.birth_date;
                     AddressTextBox.Text = existingClient.adress;
                     PassportTextBox.Text = existingClient.passport_SeriesNumb;
@@ -109,6 +111,49 @@ namespace EasyDocs
         private void FillButton_Click(object sender, RoutedEventArgs e)
         {
 
+            if (ClientComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Клиент не выбран.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); 
+                return;
+            }
+            else if(FileComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Шаблон для заполнения не выбран.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            else 
+            {
+                ClientData clientData = new ClientData();
+                clientData.FIO = FIOTextBox.Text;
+                clientData.adress = AddressTextBox.Text;
+                clientData.phone_numb = PhoneNumberTextBox.Text;
+                clientData.birth_date = BirthDateTextBox.Text;
+                clientData.id_numb = IDNumberTextBox.Text;
+                clientData.passport_SeriesNumb = PassportTextBox.Text;
+
+                string templateFilename = FileComboBox.Text;
+                string filledFilename = $"{clientData.FIO.Split()[0]}_{templateFilename}";
+
+                // Загрузка меток из файла
+                string jsonData = File.ReadAllText(TextReplacer.filepath, Encoding.UTF8);
+                TextReplacer markers = JsonConvert.DeserializeObject<TextReplacer>(jsonData);
+
+                Dictionary<string, string> map = markers.MarkersMap(clientData);
+                
+
+                switch (System.IO.Path.GetExtension(templateFilename))
+                {
+                    case ".doc":
+                        markers.FillDoc(templateFilename,filledFilename, map);
+                        break;
+                    case ".docx":
+                        markers.FillDocX(templateFilename, filledFilename, map);
+                        break;
+                    default:
+                        MessageBox.Show("Недопустимое расширение файла.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                }
+            }
         }
     }
 }

@@ -66,7 +66,7 @@
         </GroupBox>
         
         <StackPanel Grid.Column="1" Margin="10,0,10,0">
-            <TextBlock Text="Выберите файл для заполнения" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock Text="Выберите шаблон для заполнения" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
             <ComboBox x:Name="FileComboBox" FontSize="18" Height="30" Width="456" FontWeight="Regular"/>
         </StackPanel>
         <Button x:Name="FillButton"

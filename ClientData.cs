@@ -26,7 +26,6 @@ namespace EasyDocs
 
         [JsonProperty("phone_number")]
         [NotEqualTo("Номер телефона")]
-        [LettersOnly("Номер телефона")]
         [MaxLength(25, ErrorMessage = "Максимальная длина номера телефона должна быть не более 25 символов")]
         [MinLength(3, ErrorMessage = "Минимальная длина номера телефона должна быть не более 3х символов")]
         public string phone_numb { get; set; }
