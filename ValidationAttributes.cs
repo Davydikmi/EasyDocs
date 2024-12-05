@@ -44,7 +44,7 @@ namespace EasyDocs
 
             string input = value.ToString();
 
-            if (Regex.IsMatch(input, @"^[a-zA-Zа-яА-Я _-]+$")) return ValidationResult.Success;
+            if (Regex.IsMatch(input, @"^[a-zA-Zа-яА-Я]+$")) return ValidationResult.Success;
             else return new ValidationResult($"Поле \"{disallowedValue}\" может содержать только буквы (A-Z, a-z, А-Я, а-я).");
             
         }

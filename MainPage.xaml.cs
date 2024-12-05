@@ -137,9 +137,9 @@ namespace EasyDocs
                 // Загрузка меток из файла
                 string jsonData = File.ReadAllText(TextReplacer.filepath, Encoding.UTF8);
                 TextReplacer markers = JsonConvert.DeserializeObject<TextReplacer>(jsonData);
+                string brackets = markers.bracket_type;
 
-                Dictionary<string, string> map = markers.MarkersMap(clientData);
-                
+                Dictionary<string, string> map = markers.MarkersMap(clientData,brackets);
 
                 switch (System.IO.Path.GetExtension(templateFilename))
                 {

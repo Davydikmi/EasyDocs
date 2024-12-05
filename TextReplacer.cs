@@ -11,6 +11,8 @@ using System.Xml.Linq;
 using System.IO.Packaging;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace EasyDocs
 {
@@ -93,37 +95,125 @@ namespace EasyDocs
 
         public void FillDoc(string templateFilename, string filledFilename, Dictionary<string, string> map)
         {
+            string templateFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, templateFilename));
+            string filledFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, filledFilename));
 
-            string templateFilepath = $"{SourceFiles.folder_name}/{templateFilename}";
-
-            // Проверяем, существует ли исходный файл
             if (!File.Exists(templateFilepath))
             {
-                throw new FileNotFoundException("Файл шаблона не найден.");
+                throw new FileNotFoundException("Файл шаблона не найден."); 
             }
-            string filledFilepath = $"{SourceFiles.folder_name}/{filledFilename}";
+
             File.Copy(templateFilepath, filledFilepath, overwrite: true);
 
-            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();    // очень много времени уходит
-            Document doc = new Document();
+            // Создание объекта Word.Application для взаимодействия с Word
+            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+            Microsoft.Office.Interop.Word.Document doc = null;
             try
             {
-                doc = wordApp.Documents.Open(filledFilepath);   // К сожалению, файл не найден. Может, он был перемещен, переименован или удален?
+                // Открытие копии шаблона в Word
+                doc = wordApp.Documents.Open(filledFilepath);
 
-                foreach (var pair in map) FindAndReplace(wordApp, pair.Key, pair.Value);
+                foreach (var pair in map)
+                {
+                    ReplaceDocFile(wordApp, pair.Key, pair.Value);
+                }
 
                 doc.Save();
             }
             finally
             {
+                // Закрытие документа и приложения Word, освобождение ресурсов
                 doc?.Close();
                 wordApp.Quit();
+            }
+
+            // Открытие диалогового окна для выбора места сохранения итогового документа
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "All Files (*.*)|*.*", 
+                Title = "Сохранить заполненный файл", 
+                FileName = Path.GetFileName(filledFilename) 
+            };
+
+            if (saveFileDialog.ShowDialog() == true) 
+            {
+                string destinationPath = saveFileDialog.FileName;
+
+                try
+                {
+                    if (File.Exists(destinationPath)) File.Delete(destinationPath);
+
+                    File.Move(filledFilepath, destinationPath);
+                }
+                catch (IOException ex)
+                {
+                    throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
+                }
+            }
+            else
+            {
+                File.Delete(filledFilepath);
+            }
+        }
+
+        private void ReplaceDocFile(Microsoft.Office.Interop.Word.Application wordApp, string findText, string replaceText)
+        {
+            //получение объекта Find для выполнения поиска и замены текста
+            Find findObject = wordApp.Selection.Find;
+
+            //очистка форматирования искомого текста
+            findObject.ClearFormatting();
+            findObject.Text = findText;
+
+            //очистка форматирования текста для записи
+            findObject.Replacement.ClearFormatting();
+            findObject.Replacement.Text = replaceText;
+
+            // замена всех вхождений искомого текста
+            object replaceAll = WdReplace.wdReplaceAll;
+            findObject.Execute(Replace: replaceAll);
+        }
+
+        public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
+        {
+            string templateFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, templateFilename));
+            string filledFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, filledFilename));
+
+            if (!File.Exists(templateFilepath))
+            {
+                throw new FileNotFoundException("Файл шаблона не найден.");
+            }
+
+            File.Copy(templateFilepath, filledFilepath, overwrite: true);
+
+            try
+            {
+                // Открытие документа Word для редактирования
+                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filledFilepath, true))
+                {
+                    MainDocumentPart mainPart = wordDoc.MainDocumentPart;
+
+                    if (mainPart != null)
+                    {
+                        foreach (var pair in map)
+                        {
+                            ReplaceDocXFile(mainPart, pair.Key, pair.Value);
+                        }
+
+                        mainPart.Document.Save();
+                    }
+                    else throw new InvalidOperationException("Не удалось получить основную часть документа.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ошибка при заполнении документа: {ex.Message}");
             }
 
             // Открытие диалогового окна для выбора пути сохранения
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Filter = "Word Documents (*.docx)|*.docx|All Files (*.*)|*.*",
+                Filter = "All Files (*.*)|*.*",
                 Title = "Сохранить заполненный файл",
                 FileName = Path.GetFileName(filledFilename)
             };
@@ -131,38 +221,49 @@ namespace EasyDocs
             if (saveFileDialog.ShowDialog() == true)
             {
                 string destinationPath = saveFileDialog.FileName;
-                File.Move(filledFilepath, destinationPath);
+
+                try
+                {
+                    if (File.Exists(destinationPath)) File.Delete(destinationPath);
+
+                    File.Move(filledFilepath, destinationPath);
+                }
+                catch (IOException ex)
+                {
+                    throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
+                }
             }
             else File.Delete(filledFilepath);
         }
 
-        private void FindAndReplace(Microsoft.Office.Interop.Word.Application wordApp, string findText, string replaceText)
+        private void ReplaceDocXFile(MainDocumentPart mainPart, string findText, string replaceText)
         {
-            Find findObject = wordApp.Selection.Find;
-            findObject.ClearFormatting();
-            findObject.Text = findText;
-            findObject.Replacement.ClearFormatting();
-            findObject.Replacement.Text = replaceText;
-
-            object replaceAll = WdReplace.wdReplaceAll;
-            findObject.Execute(Replace: replaceAll);
-        }
-
-        public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
-        {
-
-        }
-
-        public Dictionary<string, string> MarkersMap(ClientData client)
-        {
-            return new Dictionary<string, string> 
+           
+            foreach (var textElement in mainPart.Document.Descendants<Text>())
             {
-                { FIO_marker, client.FIO },
-                { phone_numb_marker, client.phone_numb },
-                { adress_marker, client.adress },
-                { birth_date_marker, client.birth_date },
-                { passport_SeriesNumb_marker, client.passport_SeriesNumb },
-                { id_numb_marker, client.id_numb }
+                if (textElement.Text.Contains(findText))
+                {
+                    textElement.Text = textElement.Text.Replace(findText, replaceText);
+                }
+            }
+        }
+
+        public Dictionary<string, string> MarkersMap(ClientData client, string brackets)
+        {
+            if (string.IsNullOrWhiteSpace(brackets) || brackets.Length != 2)
+                throw new ArgumentException("Brackets must consist of exactly two characters.", nameof(brackets));
+
+            char openBracket = brackets[0];
+            char closeBracket = brackets[1];
+
+            return new Dictionary<string, string>
+            {
+                { $"{openBracket}{FIO_marker}{closeBracket}", client.FIO },
+                { $"{openBracket}{phone_numb_marker}{closeBracket}", client.phone_numb },
+                { $"{openBracket}{adress_marker}{closeBracket}", client.adress },
+                { $"{openBracket}{birth_date_marker}{closeBracket}", client.birth_date },
+                { $"{openBracket}{passport_SeriesNumb_marker}{closeBracket}", client.passport_SeriesNumb },
+                { $"{openBracket}{id_numb_marker}{closeBracket}", client.id_numb }
             };
         }
     }
