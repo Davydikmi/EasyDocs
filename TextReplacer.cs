@@ -104,8 +104,6 @@ namespace EasyDocs
             }
 
             File.Copy(templateFilepath, filledFilepath, overwrite: true);
-
-            // Создание объекта Word.Application для взаимодействия с Word
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
             Microsoft.Office.Interop.Word.Document doc = null;
             try
@@ -127,7 +125,6 @@ namespace EasyDocs
                 wordApp.Quit();
             }
 
-            // Открытие диалогового окна для выбора места сохранения итогового документа
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = "All Files (*.*)|*.*", 
@@ -174,79 +171,77 @@ namespace EasyDocs
             findObject.Execute(Replace: replaceAll);
         }
 
-        public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
-        {
-            string templateFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, templateFilename));
-            string filledFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, filledFilename));
+        //public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
+        //{
+        //    string templateFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, templateFilename));
+        //    string filledFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, filledFilename));
 
-            if (!File.Exists(templateFilepath))
-            {
-                throw new FileNotFoundException("Файл шаблона не найден.");
-            }
+        //    if (!File.Exists(templateFilepath))
+        //    {
+        //        throw new FileNotFoundException("Файл шаблона не найден.");
+        //    }
 
-            File.Copy(templateFilepath, filledFilepath, overwrite: true);
+        //    File.Copy(templateFilepath, filledFilepath, overwrite: true);
 
-            try
-            {
-                // Открытие документа Word для редактирования
-                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filledFilepath, true))
-                {
-                    MainDocumentPart mainPart = wordDoc.MainDocumentPart;
+        //    try
+        //    {
+        //        // Открытие документа Word для редактирования
+        //        using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filledFilepath, true))
+        //        {
+        //            MainDocumentPart mainPart = wordDoc.MainDocumentPart;
 
-                    if (mainPart != null)
-                    {
-                        foreach (var pair in map)
-                        {
-                            ReplaceDocXFile(mainPart, pair.Key, pair.Value);
-                        }
+        //            if (mainPart != null)
+        //            {
+        //                foreach (var pair in map)
+        //                {
+        //                    ReplaceDocXFile(mainPart, pair.Key, pair.Value);
+        //                }
 
-                        mainPart.Document.Save();
-                    }
-                    else throw new InvalidOperationException("Не удалось получить основную часть документа.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ошибка при заполнении документа: {ex.Message}");
-            }
+        //                mainPart.Document.Save();
+        //            }
+        //            else throw new InvalidOperationException("Не удалось получить основную часть документа.");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Ошибка при заполнении документа: {ex.Message}");
+        //    }
+        //    SaveFileDialog saveFileDialog = new SaveFileDialog
+        //    {
+        //        Filter = "All Files (*.*)|*.*",
+        //        Title = "Сохранить заполненный файл",
+        //        FileName = Path.GetFileName(filledFilename)
+        //    };
 
-            // Открытие диалогового окна для выбора пути сохранения
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "All Files (*.*)|*.*",
-                Title = "Сохранить заполненный файл",
-                FileName = Path.GetFileName(filledFilename)
-            };
+        //    if (saveFileDialog.ShowDialog() == true)
+        //    {
+        //        string destinationPath = saveFileDialog.FileName;
 
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                string destinationPath = saveFileDialog.FileName;
+        //        try
+        //        {
+        //            if (File.Exists(destinationPath)) File.Delete(destinationPath);
 
-                try
-                {
-                    if (File.Exists(destinationPath)) File.Delete(destinationPath);
+        //            File.Move(filledFilepath, destinationPath);
+        //        }
+        //        catch (IOException ex)
+        //        {
+        //            throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
+        //        }
+        //    }
+        //    else File.Delete(filledFilepath);
+        //}
 
-                    File.Move(filledFilepath, destinationPath);
-                }
-                catch (IOException ex)
-                {
-                    throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
-                }
-            }
-            else File.Delete(filledFilepath);
-        }
-
-        private void ReplaceDocXFile(MainDocumentPart mainPart, string findText, string replaceText)
-        {
+        //private void ReplaceDocXFile(MainDocumentPart mainPart, string findText, string replaceText)
+        //{
            
-            foreach (var textElement in mainPart.Document.Descendants<Text>())
-            {
-                if (textElement.Text.Contains(findText))
-                {
-                    textElement.Text = textElement.Text.Replace(findText, replaceText);
-                }
-            }
-        }
+        //    foreach (var textElement in mainPart.Document.Descendants<Text>())
+        //    {
+        //        if (textElement.Text.Contains(findText))
+        //        {
+        //            textElement.Text = textElement.Text.Replace(findText, replaceText);
+        //        }
+        //    }
+        //}
 
         public Dictionary<string, string> MarkersMap(ClientData client, string brackets)
         {

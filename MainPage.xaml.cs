@@ -139,20 +139,24 @@ namespace EasyDocs
                 TextReplacer markers = JsonConvert.DeserializeObject<TextReplacer>(jsonData);
                 string brackets = markers.bracket_type;
 
-                Dictionary<string, string> map = markers.MarkersMap(clientData,brackets);
+                Dictionary<string, string> map = markers.MarkersMap(clientData, brackets);
+                markers.FillDoc(templateFilename, filledFilename, map);
 
-                switch (System.IO.Path.GetExtension(templateFilename))
-                {
-                    case ".doc":
-                        markers.FillDoc(templateFilename,filledFilename, map);
-                        break;
-                    case ".docx":
-                        markers.FillDocX(templateFilename, filledFilename, map);
-                        break;
-                    default:
-                        MessageBox.Show("Недопустимое расширение файла.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                }
+
+
+
+                //switch (System.IO.Path.GetExtension(templateFilename))
+                //{
+                //    case ".doc":
+                //        markers.FillDoc(templateFilename, filledFilename, map);
+                //        break;
+                //    case ".docx":
+                //        markers.FillDoc(templateFilename, filledFilename, map);
+                //        break;
+                //    default:
+                //        MessageBox.Show("Недопустимое расширение файла.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //        return;
+                //}
             }
         }
     }
