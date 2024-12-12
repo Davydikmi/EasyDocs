@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 namespace EasyDocs
 {
@@ -30,7 +31,6 @@ namespace EasyDocs
             InitializeComponent();
             listview_items = new ObservableCollection<ClientData>();
             DataListView.ItemsSource = listview_items;
-            UpdateListView();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e) 
@@ -96,44 +96,42 @@ namespace EasyDocs
         private void UpdatePage(object sender, RoutedEventArgs e)  { UpdateListView(); }
         private void UpdateListView()
         {
-
             listview_items.Clear();
 
             if (File.Exists(ClientData.filepath))
             {
-
                 try 
                 {
                     string jsonData = File.ReadAllText(ClientData.filepath);
 
                     List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData);
+                    var sortedClients = clients.OrderBy(c => c.FIO).ToList();
 
-
-                    if (clients != null)
+                    foreach (var client in sortedClients)
                     {
-                        var sortedClients = clients.OrderBy(c => c.FIO).ToList();
-                        foreach (var client in sortedClients)
+                        var validationContext = new ValidationContext(client);
+                        var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+                        if (!Validator.TryValidateObject(client, validationContext, validationResults, true))
                         {
-
-                            listview_items.Add(new ClientData
+                            foreach (var error in validationResults)
                             {
-                                FIO = client.FIO,
-                                birth_date = client.birth_date,
-                                id_numb = client.id_numb,
-                                adress = client.adress,
-                                phone_numb = client.phone_numb,
-                                passport_SeriesNumb = client.passport_SeriesNumb,
-                            });
+                                MessageBox.Show($"Ошибка у клиента {client.FIO}: {error.ErrorMessage}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                Application.Current.MainWindow.Close();
+                            }
                         }
+                        else if (!client.CheckDuplicateID())
+                        {
+                            MessageBox.Show($"Ошибка у клиента {client.FIO}: Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            Application.Current.MainWindow.Close();
+                        }
+                        // Если объект прошел валидацию, добавляем его в список
+                        listview_items.Add(client);
                     }
-
                 }
                 catch(Exception ex) 
                 {
                     MessageBox.Show(ex.Message,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
                 }
-                  
-
             }
             else MessageBox.Show("Файл с данными клиентов не обнаружен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 

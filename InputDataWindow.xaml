@@ -41,7 +41,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Введите данные заказчика"
+        <TextBlock Text="Введите данные клиента"
                    FontWeight="Bold"
                    FontSize="25"
                    FontFamily="Oswald"

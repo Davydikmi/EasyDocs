@@ -11,8 +11,6 @@ using System.Xml.Linq;
 using System.IO.Packaging;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace EasyDocs
 {
@@ -104,8 +102,9 @@ namespace EasyDocs
             }
 
             File.Copy(templateFilepath, filledFilepath, overwrite: true);
+            // Создание объекта Word Application
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
-            Microsoft.Office.Interop.Word.Document doc = null;
+            Document doc = null;
             try
             {
                 // Открытие копии шаблона в Word
@@ -113,6 +112,7 @@ namespace EasyDocs
 
                 foreach (var pair in map)
                 {
+                    // Замена меток на
                     ReplaceDocFile(wordApp, pair.Key, pair.Value);
                 }
 
@@ -139,18 +139,16 @@ namespace EasyDocs
                 try
                 {
                     if (File.Exists(destinationPath)) File.Delete(destinationPath);
-
                     File.Move(filledFilepath, destinationPath);
+                    MessageBox.Show($"Файл успешно заполнен и сохранен по пути: {destinationPath}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (IOException ex)
                 {
                     throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
                 }
             }
-            else
-            {
-                File.Delete(filledFilepath);
-            }
+            else File.Delete(filledFilepath);
+            
         }
 
         private void ReplaceDocFile(Microsoft.Office.Interop.Word.Application wordApp, string findText, string replaceText)
@@ -171,82 +169,10 @@ namespace EasyDocs
             findObject.Execute(Replace: replaceAll);
         }
 
-        //public void FillDocX(string templateFilename, string filledFilename, Dictionary<string, string> map)
-        //{
-        //    string templateFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, templateFilename));
-        //    string filledFilepath = Path.GetFullPath(Path.Combine(SourceFiles.folder_name, filledFilename));
-
-        //    if (!File.Exists(templateFilepath))
-        //    {
-        //        throw new FileNotFoundException("Файл шаблона не найден.");
-        //    }
-
-        //    File.Copy(templateFilepath, filledFilepath, overwrite: true);
-
-        //    try
-        //    {
-        //        // Открытие документа Word для редактирования
-        //        using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filledFilepath, true))
-        //        {
-        //            MainDocumentPart mainPart = wordDoc.MainDocumentPart;
-
-        //            if (mainPart != null)
-        //            {
-        //                foreach (var pair in map)
-        //                {
-        //                    ReplaceDocXFile(mainPart, pair.Key, pair.Value);
-        //                }
-
-        //                mainPart.Document.Save();
-        //            }
-        //            else throw new InvalidOperationException("Не удалось получить основную часть документа.");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Ошибка при заполнении документа: {ex.Message}");
-        //    }
-        //    SaveFileDialog saveFileDialog = new SaveFileDialog
-        //    {
-        //        Filter = "All Files (*.*)|*.*",
-        //        Title = "Сохранить заполненный файл",
-        //        FileName = Path.GetFileName(filledFilename)
-        //    };
-
-        //    if (saveFileDialog.ShowDialog() == true)
-        //    {
-        //        string destinationPath = saveFileDialog.FileName;
-
-        //        try
-        //        {
-        //            if (File.Exists(destinationPath)) File.Delete(destinationPath);
-
-        //            File.Move(filledFilepath, destinationPath);
-        //        }
-        //        catch (IOException ex)
-        //        {
-        //            throw new IOException($"Не удалось сохранить файл в указанное место: {ex.Message}");
-        //        }
-        //    }
-        //    else File.Delete(filledFilepath);
-        //}
-
-        //private void ReplaceDocXFile(MainDocumentPart mainPart, string findText, string replaceText)
-        //{
-           
-        //    foreach (var textElement in mainPart.Document.Descendants<Text>())
-        //    {
-        //        if (textElement.Text.Contains(findText))
-        //        {
-        //            textElement.Text = textElement.Text.Replace(findText, replaceText);
-        //        }
-        //    }
-        //}
-
         public Dictionary<string, string> MarkersMap(ClientData client, string brackets)
         {
             if (string.IsNullOrWhiteSpace(brackets) || brackets.Length != 2)
-                throw new ArgumentException("Brackets must consist of exactly two characters.", nameof(brackets));
+                throw new ArgumentException("Скобки должны иметь только 2 символа.", nameof(brackets));
 
             char openBracket = brackets[0];
             char closeBracket = brackets[1];

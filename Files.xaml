@@ -44,7 +44,7 @@
     </Page.Resources>
 
     <Grid>
-        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="750" FontSize="18" Foreground="Black" MouseDoubleClick="fileListView_MouseDoubleClick">
+        <ListView x:Name="fileListView" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="345,0,0,0" HorizontalAlignment="Left" Width="750" FontSize="18" Foreground="Black">
             <!-- Cтиль для заголовка GridViewColumnHeader -->
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">

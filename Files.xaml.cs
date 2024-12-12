@@ -87,9 +87,8 @@ namespace EasyDocs
                 SourceFiles sourceFiles = new SourceFiles();
                 sourceFiles.ResetFiles();
                 listview_items.Clear();
+                MessageBox.Show("Файлы были успешно удалены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            MessageBox.Show("Файлы были успешно удалены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -107,11 +106,6 @@ namespace EasyDocs
 
             }
             else MessageBox.Show("Папка с файлами не найдена.");
-        }
-
-        private void fileListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 

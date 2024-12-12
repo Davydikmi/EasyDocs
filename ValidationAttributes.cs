@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,9 +45,34 @@ namespace EasyDocs
 
             string input = value.ToString();
 
-            if (Regex.IsMatch(input, @"^[a-zA-Zа-яА-Я]+$")) return ValidationResult.Success;
-            else return new ValidationResult($"Поле \"{disallowedValue}\" может содержать только буквы (A-Z, a-z, А-Я, а-я).");
+            if (Regex.IsMatch(input, @"^[a-zA-Zа-яА-Яё ]+$")) return ValidationResult.Success;
+            else return new ValidationResult($"Поле \"{disallowedValue}\" может содержать только буквы A-Z, a-z, А-Я, а-я и пробел.");
             
+        }
+    }
+    //Класс для атрибута ValidDate
+    public class ValidDateAttribute : ValidationAttribute
+    {
+        private readonly string dateFormat;
+
+        public ValidDateAttribute(string dateFormat = "dd.MM.yyyy")
+        {
+            this.dateFormat = dateFormat;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+            {
+                return new ValidationResult($"Поле \"{validationContext.DisplayName}\" должно содержать дату.");
+            }
+
+            if (!DateTime.TryParseExact(value.ToString(), dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
+            {
+                return new ValidationResult($"Поле \"{validationContext.DisplayName}\" должно содержать корректную дату в формате {dateFormat}.");
+            }
+
+            return ValidationResult.Success;
         }
     }
 }

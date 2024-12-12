@@ -70,6 +70,12 @@ namespace EasyDocs
                     return;
                 }
             }
+            else if(!clientData.CheckDuplicateID())
+            {
+                MessageBox.Show("Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             else
             {
                 clientData.AddClient();

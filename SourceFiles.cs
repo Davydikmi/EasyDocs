@@ -15,7 +15,6 @@ namespace EasyDocs
         public string filepath { get; set; }
         public const string folder_name = "source_files";
         public string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), folder_name);
-        public string projectDirectory = Directory.GetCurrentDirectory();
 
         public bool AddFile()
         {
@@ -23,9 +22,8 @@ namespace EasyDocs
             if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
             if (CheckDuplicateFileName())
             {
-                // Определение целевого пути, куда будет копироваться файл
                 string targetFilePath = System.IO.Path.Combine(targetDirectory, filename);
-                // Копирование файла
+
                 File.Copy(filepath, targetFilePath, overwrite: true);
                 return true;
             }
@@ -51,10 +49,8 @@ namespace EasyDocs
         {
             if (Directory.Exists(targetDirectory))
             {
-                // Получение всех файлов в папке
                 string[] files = Directory.GetFiles(targetDirectory);
 
-                // Удаление каждого файла
                 foreach (string file in files)
                 {
                     try

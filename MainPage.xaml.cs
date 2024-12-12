@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace EasyDocs
@@ -42,13 +43,42 @@ namespace EasyDocs
 
                     if (clients != null)
                     {
-                        var sortedClients = clients.OrderBy(c => c.FIO).ToList();
-                        foreach (var client in sortedClients)
+                        var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+                        var validClients = new List<ClientData>();
+
+                        foreach (var client in clients)
                         {
+                            // Валидация каждого клиента
+                            var validationContext = new ValidationContext(client);
+                            validationResults.Clear(); // Очистка результатов для нового клиента
+                            if (!Validator.TryValidateObject(client, validationContext, validationResults, true))
+                            {
+                                foreach (var error in validationResults)
+                                {
+                                    MessageBox.Show($"Ошибка у клиента {client.FIO}: {error.ErrorMessage}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    Application.Current.MainWindow.Close();
+                                }
+                            }
+                            else if (!client.CheckDuplicateID())
+                            {
+                                MessageBox.Show($"Ошибка у клиента {client.FIO}: Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
+                            else validClients.Add(client);
+                        }
+                        // Сортировка и добавление в ComboBox только валидных клиентов
+                        var sortedClients = validClients.OrderBy(c => c.FIO).ToList();
+                        foreach (var client in sortedClients)
+                        { 
                             ClientComboBox.Items.Add(client.FIO);
                         }
                     }
-                    else return;
+                    else
+                    {
+                        MessageBox.Show("Данные клиентов отсутствуют или файл пуст.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -142,21 +172,6 @@ namespace EasyDocs
                 Dictionary<string, string> map = markers.MarkersMap(clientData, brackets);
                 markers.FillDoc(templateFilename, filledFilename, map);
 
-
-
-
-                //switch (System.IO.Path.GetExtension(templateFilename))
-                //{
-                //    case ".doc":
-                //        markers.FillDoc(templateFilename, filledFilename, map);
-                //        break;
-                //    case ".docx":
-                //        markers.FillDoc(templateFilename, filledFilename, map);
-                //        break;
-                //    default:
-                //        MessageBox.Show("Недопустимое расширение файла.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                //        return;
-                //}
             }
         }
     }

@@ -32,7 +32,7 @@ namespace EasyDocs
 
         [JsonProperty("birthDate")]
         [NotEqualTo("Дата рождения")]
-        [RegularExpression(@"^\d{2}\.\d{2}\.\d{4}$", ErrorMessage = "Дата должна быть в формате ДД.ММ.ГГГГ")]
+        [ValidDate(ErrorMessage = "Поле \"Дата рождения\" должно содержать существующую дату.")]
         public string birth_date { get; set; }
 
         [JsonProperty("adress")]
@@ -113,7 +113,7 @@ namespace EasyDocs
             string jsonData = File.ReadAllText(filepath);
             List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData) ?? new List<ClientData>();
 
-            // Поиск клиента по идентификационному номеру (можно выбрать другой уникальный критерий)
+            // Поиск нужного клиента по идентификационному номеру
             var existingClient = clients.FirstOrDefault(c => c.id_numb == inputClientData.id_numb);
 
             if (existingClient != null)
@@ -133,6 +133,20 @@ namespace EasyDocs
             string updatedData = JsonConvert.SerializeObject(clients, Formatting.Indented);
             File.WriteAllText(filepath, updatedData);
             MessageBox.Show("Данные клиента успешно изменены.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public bool CheckDuplicateID()
+        {
+            int counter = 0; 
+            if (!File.Exists(filepath)) return true;
+            string jsonData = File.ReadAllText(filepath);
+            List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData) ?? new List<ClientData>();
+            foreach (ClientData client in clients) 
+            {
+                if(client.id_numb==id_numb) counter++;
+            }
+            if(counter == 1) return true;
+            else return false;
         }
 
     }
