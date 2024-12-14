@@ -57,11 +57,13 @@ namespace EasyDocs
                                 {
                                     MessageBox.Show($"Ошибка у клиента {client.FIO}: {error.ErrorMessage}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                                     Application.Current.MainWindow.Close();
+                                    return;
                                 }
                             }
                             else if (!client.CheckDuplicateID())
                             {
                                 MessageBox.Show($"Ошибка у клиента {client.FIO}: Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                Application.Current.MainWindow.Close();
                                 return;
                             }
                             else validClients.Add(client);

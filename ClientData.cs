@@ -143,7 +143,7 @@ namespace EasyDocs
             List<ClientData> clients = JsonConvert.DeserializeObject<List<ClientData>>(jsonData) ?? new List<ClientData>();
             foreach (ClientData client in clients) 
             {
-                if(client.id_numb==id_numb) counter++;
+                if(client.id_numb == id_numb) counter++;
             }
             if(counter == 1) return true;
             else return false;

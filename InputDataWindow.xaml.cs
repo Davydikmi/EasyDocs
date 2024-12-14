@@ -62,17 +62,17 @@ namespace EasyDocs
 
             var validationContext = new ValidationContext(clientData);
             var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-            if(!Validator.TryValidateObject(clientData, validationContext, validationResults, true))
+            if (!Validator.TryValidateObject(clientData, validationContext, validationResults, true))
             {
                 foreach (var error in validationResults)
                 {
-                    MessageBox.Show(error.ErrorMessage,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                    MessageBox.Show(error.ErrorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
-            else if(!clientData.CheckDuplicateID())
+            else if (!clientData.CheckDuplicateID())
             {
-                MessageBox.Show("Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка у клиента {clientData.FIO}: Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

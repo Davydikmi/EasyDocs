@@ -122,7 +122,31 @@ namespace EasyDocs
             else
             {
                 StreamWriter writer = new StreamWriter(TextReplacer.filepath);
+                writer.Write("{\r\n  \"FIO_marker\": \"фио\",\r\n  \"phone_number_marker\": \"номер\",\r\n  \"birthDate_marker\": \"дата рожд\",\r\n  \"adress_marker\": \"адрес\",\r\n  \"passportSeriesNumb_marker\": \"паспорт\",\r\n  \"id_number_marker\": \"идн номер\",\r\n  \"bracket_type\": \"[]\"\r\n}");
                 writer.Close();
+                string jsonData = File.ReadAllText(TextReplacer.filepath, Encoding.UTF8);
+                TextReplacer markers = JsonConvert.DeserializeObject<TextReplacer>(jsonData);
+                if (markers != null)
+                {
+                    FIOMarkerTextBox.Text = markers.FIO_marker;
+                    phoneNumberMarkerTextBox.Text = markers.phone_numb_marker;
+                    birthDateMarkerTextBox.Text = markers.birth_date_marker;
+                    adressMarkerTextBox.Text = markers.adress_marker;
+                    passportMarkerTextBox.Text = markers.passport_SeriesNumb_marker;
+                    idNumberMarkerTextBox.Text = markers.id_numb_marker;
+
+                    switch (markers.bracket_type)
+                    {
+                        case "[]": square_brackets.IsChecked = true; break;
+                        case "{}": brace.IsChecked = true; break;
+                        case "//": slash_brackets.IsChecked = true; break;
+                        case "<>": angle_brackets.IsChecked = true; break;
+                        default:
+                            MessageBox.Show("Несуществующие скобки", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                    }
+                }
+                else return;
             }
         }
 
