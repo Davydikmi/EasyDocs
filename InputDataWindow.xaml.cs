@@ -70,17 +70,14 @@ namespace EasyDocs
                     return;
                 }
             }
-            else if (!clientData.CheckDuplicateID())
+            else if (clientData.CheckDuplicateID())
             {
                 MessageBox.Show($"Ошибка у клиента {clientData.FIO}: Клиент с таким идентификационным номером уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-            else
-            {
-                clientData.AddClient();
-                this.Close();
-            }
+            clientData.AddClient();
+            MessageBox.Show("Клиент успешно добавлен.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
 
 
         }

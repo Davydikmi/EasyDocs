@@ -71,7 +71,6 @@ namespace EasyDocs
 
             string updatedData = JsonConvert.SerializeObject(clients, Formatting.Indented);
             File.WriteAllText(filepath, updatedData);
-            MessageBox.Show("Клиент успешно добавлен.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void DeleteClient()
